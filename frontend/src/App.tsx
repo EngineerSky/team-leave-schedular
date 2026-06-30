@@ -112,7 +112,7 @@ function SubmitForm({ employees, onSubmitted }: { employees: Employee[]; onSubmi
 }
 
 // ─── Pending Requests Panel ──────────────────────────────────────────────────
-function PendingRequests({ teamId, key: _key }: { teamId: number; key: number }) {
+function PendingRequests({ teamId }: { teamId: number }) {
   const [requests, setRequests] = useState<LeaveRequest[]>([]);
   const [msg, setMsg] = useState('');
   const [error, setError] = useState('');
