@@ -19,15 +19,15 @@ function CalendarView({ teamId }: { teamId: number }) {
 
   useEffect(() => { load(); }, [load]);
 
-  if (error) return <p style={{ color: 'red' }}>{error}</p>;
+  if (error) return <p className="text-danger">{error}</p>;
   if (!cal) return <p>Loading calendar…</p>;
 
   return (
     <section>
       <h2>30-Day Leave Calendar — {cal.teamName}</h2>
       <p>Team size: {cal.teamSize} | Allowed concurrently on leave: <strong>{cal.allowedLimit}</strong></p>
-      <div style={{ overflowX: 'auto' }}>
-        <table border={1} cellPadding={4} cellSpacing={0} style={{ borderCollapse: 'collapse', fontSize: 13 }}>
+      <div className="overflow-x-auto">
+        <table border={1} cellPadding={4} cellSpacing={0} className="scheduler-table">
           <thead>
             <tr>
               <th>Date</th>
@@ -42,12 +42,12 @@ function CalendarView({ teamId }: { teamId: number }) {
               const count = d.employeesOnLeave.length;
               const atLimit = d.isWorkingDay && count >= d.allowedLimit;
               return (
-                <tr key={d.date} style={{ background: atLimit ? '#ffe0e0' : d.isWorkingDay ? '#fff' : '#f5f5f5' }}>
+                <tr key={d.date} className={atLimit ? 'row-at-limit' : d.isWorkingDay ? 'row-working' : 'row-non-working'}>
                   <td>{fmt(d.date)}</td>
                   <td>{new Date(d.date).toLocaleDateString('en-GB', { weekday: 'short' })}</td>
-                  <td style={{ textAlign: 'center' }}>{d.isWorkingDay ? '✓' : '–'}</td>
+                  <td className="text-center">{d.isWorkingDay ? '✓' : '–'}</td>
                   <td>{d.employeesOnLeave.map(e => e.employeeName).join(', ') || '—'}</td>
-                  <td style={{ textAlign: 'center' }}>
+                  <td className="text-center">
                     {d.isWorkingDay ? `${count} / ${d.allowedLimit}` : '—'}
                   </td>
                 </tr>
@@ -84,7 +84,7 @@ function SubmitForm({ employees, onSubmitted }: { employees: Employee[]; onSubmi
   return (
     <section>
       <h2>Submit Leave Request</h2>
-      <form onSubmit={submit} style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+      <form onSubmit={submit} className="form-flex">
         <div>
           <label>Employee<br />
             <select required value={employeeId} onChange={e => setEmployeeId(e.target.value)}>
@@ -105,8 +105,8 @@ function SubmitForm({ employees, onSubmitted }: { employees: Employee[]; onSubmi
         </div>
         <button type="submit">Submit</button>
       </form>
-      {msg && <p style={{ color: 'green' }}>{msg}</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {msg && <p className="text-success">{msg}</p>}
+      {error && <p className="text-danger">{error}</p>}
     </section>
   );
 }
@@ -148,14 +148,14 @@ function PendingRequests({ teamId }: { teamId: number }) {
   return (
     <section>
       <h2>All Leave Requests</h2>
-      {msg   && <p style={{ color: 'green' }}>{msg}</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {msg   && <p className="text-success">{msg}</p>}
+      {error && <p className="text-danger">{error}</p>}
 
       <h3>Pending ({pending.length})</h3>
       {pending.length === 0
         ? <p>No pending requests.</p>
         : (
-          <table border={1} cellPadding={4} cellSpacing={0} style={{ borderCollapse: 'collapse', fontSize: 13 }}>
+          <table border={1} cellPadding={4} cellSpacing={0} className="scheduler-table">
             <thead>
               <tr><th>ID</th><th>Employee</th><th>Start</th><th>End</th><th>Actions</th></tr>
             </thead>
@@ -177,17 +177,17 @@ function PendingRequests({ teamId }: { teamId: number }) {
         )
       }
 
-      <h3 style={{ marginTop: 16 }}>History</h3>
+      <h3 className="mt-16">History</h3>
       {others.length === 0
         ? <p>No history yet.</p>
         : (
-          <table border={1} cellPadding={4} cellSpacing={0} style={{ borderCollapse: 'collapse', fontSize: 13 }}>
+          <table border={1} cellPadding={4} cellSpacing={0} className="scheduler-table">
             <thead>
               <tr><th>ID</th><th>Employee</th><th>Start</th><th>End</th><th>Status</th><th>Reason</th></tr>
             </thead>
             <tbody>
               {others.map(r => (
-                <tr key={r.id} style={{ background: r.status === 'Approved' ? '#e8f5e9' : '#fce4ec' }}>
+                <tr key={r.id} className={r.status === 'Approved' ? 'row-approved' : 'row-rejected'}>
                   <td>{r.id}</td>
                   <td>{r.employeeName}</td>
                   <td>{fmt(r.startDate)}</td>
@@ -223,10 +223,10 @@ export default function App() {
   const refresh = () => setRefreshKey(k => k + 1);
 
   return (
-    <div style={{ fontFamily: 'sans-serif', maxWidth: 960, margin: '0 auto', padding: 16 }}>
+    <div className="app-container">
       <h1>Team Leave Scheduler</h1>
 
-      <div style={{ marginBottom: 16 }}>
+      <div className="team-selector-container">
         <label><strong>Team: </strong>
           <select value={teamId} onChange={e => { setTeamId(Number(e.target.value)); refresh(); }}>
             {teams.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}

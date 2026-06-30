@@ -294,3 +294,68 @@ code {
     border-right-color: var(--border);
   }
 }
+
+/* Team Leave Scheduler Styles */
+.app-container {
+  font-family: sans-serif;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.team-selector-container {
+  margin-bottom: 16px;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+.scheduler-table {
+  border-collapse: collapse;
+  font-size: 13px;
+  width: 100%;
+}
+
+.row-at-limit {
+  background: #ffe0e0;
+}
+
+.row-working {
+  background: #fff;
+}
+
+.row-non-working {
+  background: #f5f5f5;
+}
+
+.row-approved {
+  background: #e8f5e9;
+}
+
+.row-rejected {
+  background: #fce4ec;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.form-flex {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.text-success {
+  color: green;
+}
+
+.text-danger {
+  color: red;
+}
+
+.mt-16 {
+  margin-top: 16px;
+}
