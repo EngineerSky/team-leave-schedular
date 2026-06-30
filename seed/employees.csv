@@ -1,0 +1,16 @@
+EmployeeId,Name,Team,LeaveBalance
+1,Alice Smith,Engineering,30
+2,Bob Jones,Engineering,25
+3,Charlie Brown,Engineering,22
+4,David Miller,Engineering,30
+5,Emma Davis,Engineering,18
+6,Frank Wilson,Operations,30
+7,Grace Taylor,Operations,28
+8,Henry Anderson,Operations,30
+9,Ivy Thomas,Operations,15
+10,Jack Jackson,Operations,30
+11,Karen White,Finance,30
+12,Leo Harris,Finance,27
+13,Mia Martin,Finance,30
+14,Nathan Thompson,Finance,20
+15,Olivia Garcia,Finance,30
