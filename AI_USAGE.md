@@ -1,18 +1,19 @@
 # AI_USAGE.md — Team Leave Scheduler
 
 ## Tools Used
-- **Antigravity (Google DeepMind)** — primary coding assistant used throughout the project for code generation, incremental commits, bug fixes, and test writing.
+- **Claude (Anthropic)** — used during the planning phase to work through the ambiguous business rule, stress-test candidate formulas against alternatives, and draft/refine the proposal and DECISIONS.md reasoning before any code was written.
+- **Antigravity (Google DeepMind)** — primary coding assistant used throughout implementation for code generation, incremental commits, bug fixes, and test writing, executing against the interpretations already locked in during planning.
 
 ---
 
 ## Two Most Useful Prompts
 
-### 1. Clarifying the 30% rule interpretation
-> *"30% Rule Formula: Allowed Leave Limit = max(1, floor(0.30 × Team Size)). Plain floor is used because it strictly honors the literal 30% cap for every team size where 30% is achievable with whole people; the max(1, ...) floor activates only for teams of 1–3, where strict compliance would make leave structurally impossible, which we judged to be an unintended consequence of the rule rather than its intent."*
+### 1. Stress-testing the 30% rule formula (Claude, planning phase)
+> *"Give me a comparison on both"* — followed by walking through `max(1, floor(0.30 × teamSize))` against `Math.Round` and `ceil` across specific team sizes (2, 5, 7, 15, 25), to see exactly where each alternative diverged and why.
 
-**Why useful:** Rather than asking the AI to guess the business rule interpretation, providing the fully-reasoned interpretation upfront produced a precise `CalculateAllowedLimit` implementation and matching test cases on the first attempt, covering all boundary conditions from team size 1 through 10.
+**Why useful:** Rather than picking a rounding strategy on instinct, generating a side-by-side comparison with concrete team sizes surfaced the real failure mode of each alternative — e.g. that `Math.Round`'s banker's-rounding convention produces inconsistent, hard-to-explain results at team sizes near a half-integer (5, 15, 25), which isn't obvious until you tabulate actual numbers. This produced the final formula and its justification before a single line of code was written, so the implementation phase had zero ambiguity left to resolve.
 
-### 2. Specifying the test strategy for the service layer
+### 2. Specifying the test strategy for the service layer (Antigravity, implementation phase)
 > *"Write unit tests for overlapping request auto-rejections — include a non-overlapping pending request that must remain Pending after the approval, to prove the system only rejects overlapping ones."*
 
 **Why useful:** This specificity forced the AI to produce a three-request test scenario (approve one, auto-reject the overlapping one, keep the non-overlapping one Pending), which is a much stronger assertion than simply checking that one request was rejected. It caught a potential bug where a naive implementation could have rejected all pending requests instead of just the overlapping ones.
