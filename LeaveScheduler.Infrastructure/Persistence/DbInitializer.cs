@@ -12,19 +12,10 @@ public static class DbInitializer
 
         if (context.PublicHolidays.Any()) return; // already seeded
 
-        // ── Public Holidays 2026 ──────────────────────────────────────────────
+        // ── Public Holidays ───────────────────────────────────────────────────
         context.PublicHolidays.AddRange(
-            new PublicHoliday { Date = new DateTime(2026,  1,  1), Name = "New Year's Day" },
-            new PublicHoliday { Date = new DateTime(2026,  4,  3), Name = "Good Friday" },
-            new PublicHoliday { Date = new DateTime(2026,  4,  6), Name = "Easter Monday" },
-            new PublicHoliday { Date = new DateTime(2026,  5,  4), Name = "Early May Bank Holiday" },
-            new PublicHoliday { Date = new DateTime(2026,  5, 25), Name = "Spring Bank Holiday" },
-            new PublicHoliday { Date = new DateTime(2026,  7,  4), Name = "Independence Day (USA)" },
-            new PublicHoliday { Date = new DateTime(2026,  8, 31), Name = "Summer Bank Holiday" },
-            new PublicHoliday { Date = new DateTime(2026,  9,  7), Name = "Labor Day (USA)" },
-            new PublicHoliday { Date = new DateTime(2026, 11, 26), Name = "Thanksgiving Day (USA)" },
-            new PublicHoliday { Date = new DateTime(2026, 12, 25), Name = "Christmas Day" },
-            new PublicHoliday { Date = new DateTime(2026, 12, 28), Name = "Boxing Day (Observed)" }
+            new PublicHoliday { Date = new DateTime(2026,  8, 10), Name = "Heroes' Day" },
+            new PublicHoliday { Date = new DateTime(2026,  8, 11), Name = "Defence Forces Day" }
         );
 
         // ── Teams ─────────────────────────────────────────────────────────────
